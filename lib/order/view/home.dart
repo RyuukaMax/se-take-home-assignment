@@ -41,7 +41,8 @@ class _HomeState extends State<_Home> {
               border: Border.all(color: Colors.black),
             ),
             child: BlocBuilder<OrderCubit, OrderState>(
-              builder: (context, state) => _createOrderTile(state.orders),
+              builder: (context, state) =>
+                  _createOrderRow(state.pendingOrders, state.completedOrders),
             ),
           ),
         ),
@@ -53,6 +54,30 @@ class _HomeState extends State<_Home> {
           child: const Text('Add Order VIP'),
           onPressed: () => context.read<OrderCubit>().addOrder(isVip: true),
         )
+      ],
+    );
+  }
+
+  _createOrderRow(List<Order> pendingOrders, List<Order> completedOrders) =>
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Expanded(
+            child: _createOrderColumn(pendingOrders, Status.pending),
+          ),
+          Expanded(
+            child: _createOrderColumn(completedOrders, Status.completed),
+          ),
+        ],
+      );
+
+  _createOrderColumn(List<Order> props, Status status) {
+    return Column(
+      children: <Widget>[
+        Text(status == Status.pending ? 'Pending' : 'Completed'),
+        Expanded(
+          child: _createOrderTile(props),
+        ),
       ],
     );
   }

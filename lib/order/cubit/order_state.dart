@@ -1,11 +1,16 @@
 part of 'order_cubit.dart';
 
 class OrderState extends Equatable {
-  OrderState({required this.orderCount, required this.orders});
+  const OrderState({
+    required this.orderCount,
+    required this.pendingOrders,
+    required this.completedOrders,
+  });
 
   final int orderCount;
-  final List<Order> orders;
+  final List<Order> pendingOrders;
+  final List<Order> completedOrders;
 
   @override
-  List<Object> get props => [orders];
+  List<Object> get props => [orderCount, pendingOrders, completedOrders];
 }
