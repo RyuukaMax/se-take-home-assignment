@@ -96,8 +96,16 @@ class OrderCubit extends Cubit<OrderState> {
           .takeWhile((event) {
         isBotAlive = state.bots.contains(updatedBot);
         return event < botDuration && isBotAlive;
-      }).forEach((element) {
+      }).forEach((event) {
         // TODO: add progress bar and state emitter of progress value
+        emit(state.copyWith(
+          bots: _updateBotListState(
+            List.from(state.bots),
+            updatedBot,
+            updatedBot.increaseProgress(event),
+          ),
+        ));
+        updatedBot = updatedBot.increaseProgress(event);
       });
 
       if (isBotAlive) {

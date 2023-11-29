@@ -137,6 +137,7 @@ class _HomeState extends State<_Home> {
           subtitle: props[index].assignedOrder != null
               ? Text('Working on order ${props[index].assignedOrder!.id}')
               : const Text('No work'),
+          trailing: Text(props[index].progress.toString()),
         ),
       );
 }

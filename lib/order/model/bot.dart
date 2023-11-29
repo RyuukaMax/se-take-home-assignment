@@ -24,9 +24,15 @@ class Bot extends Equatable {
   Bot freeBot() => Bot(
         id: id,
         assignedOrder: null,
-        progress: progress,
+        progress: 0,
+      );
+
+  Bot increaseProgress(int tick) => Bot(
+        id: id,
+        assignedOrder: assignedOrder,
+        progress: tick,
       );
 
   @override
-  List<Object?> get props => [id, assignedOrder];
+  List<Object?> get props => [id, assignedOrder, progress];
 }
