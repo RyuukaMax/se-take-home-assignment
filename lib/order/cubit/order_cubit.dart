@@ -7,6 +7,8 @@ import 'package:mcd_worker_demo/order/model/order.dart';
 
 part 'order_state.dart';
 
+const botDuration = 10;
+
 class OrderCubit extends Cubit<OrderState> {
   OrderCubit() : super(const OrderState());
 
@@ -93,8 +95,10 @@ class OrderCubit extends Cubit<OrderState> {
       await Stream<int>.periodic(const Duration(seconds: 1), (i) => i + 1)
           .takeWhile((event) {
         isBotAlive = state.bots.contains(updatedBot);
-        return event < 5 && isBotAlive;
-      }).forEach((element) {});
+        return event < botDuration && isBotAlive;
+      }).forEach((element) {
+        // TODO: add progress bar and state emitter of progress value
+      });
 
       if (isBotAlive) {
         // Update order list
