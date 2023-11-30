@@ -8,6 +8,7 @@ import 'package:mcd_worker_demo/order/model/order.dart';
 part 'order_state.dart';
 
 const botDuration = 10;
+const botDurationVip = 5;
 
 class OrderCubit extends Cubit<OrderState> {
   OrderCubit() : super(const OrderState());
@@ -32,9 +33,9 @@ class OrderCubit extends Cubit<OrderState> {
     processOrder();
   }
 
-  void addBot() {
+  void addBot({bool isVip = false}) {
     int updatedCount = state.botCount + 1;
-    Bot newBot = Bot(id: updatedCount);
+    Bot newBot = Bot(id: updatedCount, isVip: isVip);
 
     // Copy last state list
     List<Bot> newBots = List.from(state.bots);
@@ -92,10 +93,11 @@ class OrderCubit extends Cubit<OrderState> {
         ),
       ));
 
+      int duration = getFreeBot.isVip ? botDurationVip : botDuration;
       await Stream<int>.periodic(const Duration(seconds: 1), (i) => i + 1)
           .takeWhile((event) {
         isBotAlive = state.bots.contains(updatedBot);
-        return event < botDuration && isBotAlive;
+        return event < duration && isBotAlive;
       }).forEach((event) {
         // TODO: add progress bar and state emitter of progress value
         emit(state.copyWith(
@@ -134,6 +136,7 @@ class OrderCubit extends Cubit<OrderState> {
             updatedOrder.cancelOrder(),
           ),
         ));
+        processOrder();
       }
     }
   }

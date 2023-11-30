@@ -82,6 +82,14 @@ class _HomeState extends State<_Home> {
         ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.green,
+            foregroundColor: Colors.white,
+          ),
+          child: const Text('Add Bot VIP'),
+          onPressed: () => context.read<OrderCubit>().addBot(isVip: true),
+        ),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
             backgroundColor: Colors.red,
             foregroundColor: Colors.white,
           ),

@@ -6,11 +6,14 @@ class Bot extends Equatable {
     required this.id,
     this.assignedOrder,
     int? progress,
-  }) : progress = progress ?? 0;
+    bool? isVip,
+  })  : progress = progress ?? 0,
+        isVip = isVip ?? false;
 
   final int id;
   final Order? assignedOrder;
   final int progress;
+  final bool isVip;
 
   Bot assignOrder({
     required Order newOrder,
@@ -19,20 +22,23 @@ class Bot extends Equatable {
         id: id,
         assignedOrder: newOrder,
         progress: progress,
+        isVip: isVip,
       );
 
   Bot freeBot() => Bot(
         id: id,
         assignedOrder: null,
         progress: 0,
+        isVip: isVip,
       );
 
   Bot increaseProgress(int tick) => Bot(
         id: id,
         assignedOrder: assignedOrder,
         progress: tick,
+        isVip: isVip,
       );
 
   @override
-  List<Object?> get props => [id, assignedOrder, progress];
+  List<Object?> get props => [id, assignedOrder, progress, isVip];
 }
